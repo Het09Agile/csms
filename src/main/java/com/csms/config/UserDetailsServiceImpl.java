@@ -20,15 +20,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws NotFoundException {
-        Users user = userRepository.findById(Long.parseLong(username)).orElseThrow(() -> new
-                NotFoundException("User details not found for the user: " + username));
+        Users user = userRepository.findByEmail(username).orElseThrow(() -> new
+                NotFoundException("User details not found."));
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole().toString()));
         return new User(user.getEmail(), user.getPassword(), authorities);
-
-
     }
-
-
 }
 
 

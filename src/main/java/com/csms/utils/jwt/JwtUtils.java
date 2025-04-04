@@ -13,12 +13,12 @@ import lombok.AllArgsConstructor;
 public class JwtUtils {
     private final SecretKey secretKey;
 
-    public String generate(String username,Long id, String role) {
-        System.out.println(secretKey);
+    public String generate(String username,long id, String role) {
         return Jwts.builder()
                 .issuer("Cricket Score Management System")
                 .subject("Access Token")
                 .claim("id",id)
+                .claim("username",username)
                 .claim("role",role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24)))

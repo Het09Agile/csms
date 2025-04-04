@@ -20,7 +20,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return id;
+        return email;
     }
 
     public List<? extends GrantedAuthority> getAuthorities() {

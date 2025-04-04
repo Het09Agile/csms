@@ -4,6 +4,7 @@ import com.csms.config.UserDetailsImpl;
 import com.csms.model.Users;
 import com.csms.repository.UserRepository;
 import com.csms.utils.exception.customExceptions.NotFoundException;
+import com.csms.utils.respnse.SuccessResponse;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
@@ -35,14 +36,13 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
             try {
                 jwt = jwt.startsWith("Bearer") ? jwt.substring("Bearer".length()).trim() : jwt;
 
-                final SecretKey secretKey = Keys.hmacShaKeyFor(environment.getProperty("JWT_SECRET_KEY").getBytes());
+                final SecretKey secretKey = Keys.hmacShaKeyFor(environment.getProperty("jwt.secret").getBytes());
 
                 if(null != secretKey) {
                     Claims claims = Jwts.parser().verifyWith(secretKey)
                             .build().parseSignedClaims(jwt).getPayload();
 
                     Long id = Long.valueOf(claims.get("id").toString());
-
                     String authorities = String.valueOf(claims.get("role"));
                     Users user = userRepo.findById(id).orElseThrow(()->new NotFoundException("User not Found"));
                     UserDetailsImpl userDetails = new UserDetailsImpl(user.getEmail(),user.getPassword(),user.getId().toString(), AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
@@ -51,19 +51,19 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             } catch (MalformedJwtException e) {
-//                SuccessResponse.errorResponse("Invalid JWT signature or malformed token.",HttpStatus.BAD_REQUEST);
+                SuccessResponse.errorResponse("Invalid JWT signature or malformed token.",HttpStatus.BAD_REQUEST);
             } catch (ExpiredJwtException e) {
-//                SuccessResponse.errorResponse("JWT token is expired.",HttpStatus.BAD_REQUEST);
+                SuccessResponse.errorResponse("JWT token is expired.",HttpStatus.BAD_REQUEST);
             } catch (UnsupportedJwtException e) {
-//                SuccessResponse.errorResponse("Unsupported JWT token.",HttpStatus.BAD_REQUEST);
+                SuccessResponse.errorResponse("Unsupported JWT token.",HttpStatus.BAD_REQUEST);
             } catch (IllegalArgumentException e) {
-//                SuccessResponse.errorResponse("JWT claims string is empty.",HttpStatus.BAD_REQUEST);
+                SuccessResponse.errorResponse("JWT claims string is empty.",HttpStatus.BAD_REQUEST);
             }
             catch (Exception exception) {
-//                SuccessResponse.errorResponse("Invalid Token received!",HttpStatus.BAD_REQUEST);
+                SuccessResponse.errorResponse("Invalid Token received!",HttpStatus.BAD_REQUEST);
             }
         }else {
-//            SuccessResponse.errorResponse("Please provide access token to access protected APIs.",HttpStatus.BAD_REQUEST);
+            SuccessResponse.errorResponse("Please provide access token to access protected APIs.",HttpStatus.BAD_REQUEST);
         }
         filterChain.doFilter(request,response);
     }
