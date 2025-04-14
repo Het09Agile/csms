@@ -8,6 +8,7 @@ import com.csms.dto.UpdateMatchDto;
 import com.csms.model.Users;
 import com.csms.service.MatchService;
 import com.csms.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/match")
 @AllArgsConstructor
+@SecurityRequirement(name = "bearer")
 public class MatchController {
 
     private final MatchService matchService;

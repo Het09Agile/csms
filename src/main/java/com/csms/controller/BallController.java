@@ -2,6 +2,7 @@ package com.csms.controller;
 
 import com.csms.dto.CreateBallDto;
 import com.csms.service.BallService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/ball")
 @AllArgsConstructor
+@SecurityRequirement(name = "bearer")
 public class BallController {
 
     private final BallService ballService;

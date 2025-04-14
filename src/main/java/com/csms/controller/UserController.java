@@ -11,6 +11,7 @@ import com.csms.utils.exception.customExceptions.NotFoundException;
 import com.csms.utils.jwt.JwtUtils;
 import com.csms.utils.messages.SuccessMessages;
 import com.csms.utils.respnse.SuccessResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -65,12 +66,14 @@ public class UserController {
     }
 
     @GetMapping("/api/myProfile")
+    @SecurityRequirement(name = "bearer")
     public ResponseEntity myProfile(@AuthenticationPrincipal UserDetailsImpl principal){
         Users user = userService.getUserDetails(principal);
         return SuccessResponse.dataOnly(user);
     }
 
     @PutMapping("/api/updateProfile")
+    @SecurityRequirement(name = "bearer")
     public ResponseEntity updateProfile(@RequestBody UpdateUserDto userDto, @AuthenticationPrincipal UserDetailsImpl principal){
         Users user = userService.getUserDetails(principal);
         user.setFirstName(userDto.getFirstName());

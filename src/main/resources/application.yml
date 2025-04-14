@@ -28,3 +28,14 @@ logging:
 admin:
   email: ${ADMIN_EMAIL:admin.csms@yopmail.com}
   password: ${ADMIN_PASSWORD:Admin@123}
+
+#springdoc:
+#  api-docs:
+#    path: /api-docs
+#
+#
+#swagger-ui:
+#   path: /swagger-ui.html
+springdoc:
+  swagger-ui:
+    path: /swagger-ui

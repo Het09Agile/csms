@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Setter @Getter
 @Entity
 public class Overs {
@@ -27,4 +29,7 @@ public class Overs {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     OverStatus status = OverStatus.CURRENT;
+
+    @OneToMany(targetEntity = Ball.class,mappedBy = "over")
+    Set<Ball> balls;
 }

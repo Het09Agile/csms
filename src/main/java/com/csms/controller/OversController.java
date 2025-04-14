@@ -3,6 +3,7 @@ package com.csms.controller;
 import com.csms.dto.CreateOverDto;
 import com.csms.dto.IdDto;
 import com.csms.service.OverService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/overs")
 @AllArgsConstructor
+@SecurityRequirement(name = "bearer")
 public class OversController {
 
     private final OverService overService;

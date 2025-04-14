@@ -8,6 +8,7 @@ import com.csms.model.Users;
 import com.csms.service.TeamService;
 import com.csms.service.UserService;
 import com.csms.utils.enums.Role;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/teams")
 @AllArgsConstructor
+@SecurityRequirement(name = "bearer")
 public class TeamController {
 
     private final TeamService teamService;
